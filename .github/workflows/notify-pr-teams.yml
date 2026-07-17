@@ -7,10 +7,12 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
+    env:
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
     steps:
       - name: Send PR notification to Power Automate
         run: |
-          curl -X POST "https://defaulte22004bdacbb42e19bd8a1153d7047.e0.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/04/workflows/33b24951168b441699cbac5abcb424e5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AvUfw8f0beV3o_vDgut7BqMZJ6pAN9KdJ2MvfXwV_e8" \
+          curl -X POST "$TEAMS_WEBHOOK_URL" \
           -H "Content-Type: application/json" \
           -d '{
             "title": "${{ github.event.pull_request.title }}",
